@@ -26,7 +26,7 @@ colormap(pltColor.map); colorbar; shading flat;
 caxis([-5, -2]);
 
 ax(1).YDir='normal';
-ax(1).Title.String = EB.nameInString(EB.number);
+ax(1).Title.String = EBstring(EB.number);
 ax(1).XLabel.String = 'kx';
 ax(1).YLabel.String = '\omega';
 ax(1).XLim = [0,30];
@@ -38,7 +38,7 @@ colormap(pltColor.map);
 caxis([-5, -2]);
 
 ax(2).YDir='normal';
-ax(2).Title.String = EB.nameInString(EB.number);
+ax(2).Title.String = EBstring(EB.number);
 ax(2).XLabel.String = 'ky';
 ax(2).YLabel.String = '\omega';
 ax(2).XLim = [0,30];
@@ -72,7 +72,7 @@ im_krw = imagesc(krw');
 colormap(pltColor.map); colorbar; shading flat;
 ax.XLabel.String = 'k(mode)'; ax.YLabel.String = '\omega';
 ax.YDir = 'normal';
-ax.Title.String = sprintf('%s \n %3.3f degree oblique mode', cell2mat(EB.nameInString(EB.number);), rad2deg(atan(kx_div_ky)));
+ax.Title.String = sprintf('%s \n %3.3f degree oblique mode', cell2mat(EBstring(EB.number)), rad2deg(atan(kx_div_ky)));
 % xDispersion = [0:dkx:20]*cos(deg2rad(thetaDispersion));
 % yDispersion = [0:dkx:20]*sin(deg2rad(thetaDispersion));
 % for i=1:size(kxkyw, 3)

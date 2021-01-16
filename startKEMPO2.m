@@ -58,15 +58,10 @@ global tmp_editedHist
 parameterFileForContiniusJob = ['_jobnum' num2str(jobnumber) '_' startSimulationDatetime '.mat'];
 paramEJ.spName = {'All Species', 'Species 1', 'Species 2', 'Species 3', 'Species 4'};
 paramEJ.direction = {'Parallel', 'Perpendicular', 'All directions'};
-% if check.wkxky
-  divide_k = 2;
-  % dispFilename = ['dispersionData' cell2mat(app.EBstring(app.EBnumber)) '.mat'];
-  % dataHDD = matfile(dispFilename, 'Writable',true);
-  kxkyt = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
-  % dataHDD.kxkyt = zeros(nx, ny, ntime);
-  % dataHDD.kxkyw = zeros(nx, ny, ntime);
-% end
-% figNumber = 1;
+
+divide_k = 2;
+kxkyt = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+
 tic;  
 for itime = 1:ntime
   jtime = jtime +1;
@@ -86,7 +81,7 @@ for itime = 1:ntime
   timeDisp = sprintf('Time = %10.3f / %10.3f', jtime*dt, ntime*dt);
   disp(timeDisp);
 end 
-kxkytMatFilename = 'kxkyt.mat';
+kxkytMatFilename = ['kxkyt_', cell2mat(EBstring(EB.number)), '.mat';
 save(kxkytMatFilename, 'kxkyt', '-v7.3');
 movefile(kxkytMatFilename, newDirAbsolutePath);
 
