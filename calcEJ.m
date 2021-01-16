@@ -83,7 +83,7 @@ EJplot(1, 1, :, :) = EJ(1, :, :); % parallel
 EJplot(1, 2, :, :) = EJ(2, :, :) + EJ(3, :, :); % perpendicular
 EJplot(1, 3, :, :) = EJ(1, :, :) + EJ(2, :, :) + EJ(3, :, :); % all directions
 
-%描画
+% figure of EJ plot
 if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
   f_EJ = figure(88);
   f_EJ.Position = [0, 0, 1400, 900];
@@ -100,15 +100,19 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     end
     EJrow = (k-EJcol)/3+1;
     ax(k) = subplot(ns+1, 3, k); imagesc(squeeze(EJplot(EJrow, EJcol, X2, Y2))');
-    colormap(mapEJ); colorbar; shading flat;
+    colormap(pltColor.mapEJ); colorbar; shading flat;
     ax(k).DataAspectRatio = [100, 100, 1];
     ax(k).Title.String = sprintf('%s \n %s \n Time = %10.3f / %10.3f', ...
     cell2mat(paramEJ.spName(EJrow)), ...
     cell2mat(paramEJ.direction(EJcol)), jtime*dt, ntime*dt);
     ax(k).XLabel.String = 'X'; ax(k).YLabel.String = 'Y';
     ax(k).YDir='normal';
-    caxis([-5e-12, 5e-12]);
-    % recommended: caxis([-1e-12, 1e-12]);
+    caxis([-3e-11, 3e-11]);
   end
   writeVideo(v_EJ, frames_EJ);
+  if mod(jtime, floor(ntime/ndskip/20)) == 0
+    figFilename = ['EJ', num2str(jtime), '.fig'];
+    savefig(f_EJ, figFilename);
+    movefile(figFilename, figPath);
+  end
 end

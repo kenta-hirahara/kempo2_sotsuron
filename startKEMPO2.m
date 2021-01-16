@@ -10,6 +10,10 @@ cd('./pastJobs');
 mkdir(startSimulationDatetime);
 newDirAbsolutePath = [currentFolder '/pastJobs/' startSimulationDatetime];
 addpath(newDirAbsolutePath);
+cd(newDirAbsolutePath);
+mkdir('figures');
+figPath = [newDirAbsolutePath '/figures'];
+addpath(figPath);
 cd(currentFolder);
 
 inputParamMatFilename = 'inputParam.mat';
@@ -18,8 +22,9 @@ movefile(inputParamMatFilename, newDirAbsolutePath);
 
 disp('Simulation started'); 
 addpath('./colormap');
-map = colormapTurbo;
-mapEJ = colormapRdYlBu;
+pltColor.map = colormapTurbo;
+pltColor.mapEJ = colormapRdYlBu;
+EBstring = {'Ex', 'Ey', 'Ez', 'Bx', 'By', 'Bz'};
 % GUIから実行する場合はこれ以降5行をコメントアウト
 % addpath('./params/');
 % [filename,path] = uigetfile('./params/*.mat');
@@ -44,8 +49,10 @@ openVideos;
 num_v = 40;
 dv = cv/num_v;
 div = 2*[1:num_v+1]-1;
-para = [-1*cv:dv:cv]*rnv;
-perp = [0:dv:cv]*rnv;
+veloDistAxis.para = [-1:dv/cv:1];
+veloDistAxis.perp = [0:dv/cv:1];
+veloDistAxis.paraLabel = texlabel('v_{para}*c^(-1)');
+veloDistAxis.perpLabel = texlabel('v_{perp}*c^(-1)');
 global tmp_editedHist
 
 parameterFileForContiniusJob = ['_jobnum' num2str(jobnumber) '_' startSimulationDatetime '.mat'];

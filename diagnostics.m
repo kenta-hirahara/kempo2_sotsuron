@@ -2,34 +2,43 @@
 xyEB = {ex(X2,Y2)*rne, ey(X2,Y2)*rne, ez(X2,Y2)*rne, (bx(X2,Y2)-bx0)*rnb, (by(X2,Y2)-by0)*rnb, (bz(X2,Y2)-bz0)*rnb}; %これは全プロットで使うのでここに固定
 if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
   energy;
+
   % figure of xy plot
-  if app.xyExyBCheckBox.Value
+  if inputParam.xyPlot
     f_xy = figure(1);
     f_xy.Name = 'xy plot';
     f_xy.Position = [0, 0, 1400, 750];
-    % set(0,'DefaultFigureColormap',map);
     frames_xy = getframe(f_xy);
     for k =1:6
-      plot_xy(xyEB, map, k, app.EBstring, jtime, ntime ,dt);
+      plot_xy(xyEB, pltColor, k, EBstring, jtime, inputParam);
     end
     writeVideo(v_xyEorB, frames_xy);
+    if mod(jtime, floor(ntime/ndskip/20)) == 0
+      figFilename = ['xy', num2str(jtime), '.fig'];
+      savefig(f_xy, figFilename);
+      movefile(figFilename, figPath);
+    end
   end
 
   % figure of kxky plot
-  if app.kxkyEkxkyBCheckBox.Value
+  if inputParam.kxkyPlot
     f_kxky = figure(2);
     f_kxky.Name = 'kxky plot';
     f_kxky.Position = [0, 0, 1400, 750];
     frames_kxky = getframe(f_kxky);
-
-    for k =1:6 %つまりE, Bの全成分プロット
-      plot_k(xyEB, k, nx, ny, nkmax, map, app.EBstring, jtime, ntime, dt);
+    for k =1:6 %E, Bの全成分プロット
+      plot_k(xyEB, k, inputParam, nkmax, pltColor, EBstring, jtime);
     end
     writeVideo(v_kxkyEorB, frames_kxky);
+    if mod(jtime, floor(ntime/ndskip/20)) == 0
+      figFilename = ['kxky', num2str(jtime), '.fig'];
+      savefig(f_kxky, figFilename);
+      movefile(figFilename, figPath);
+    end
   end
 
   % figure of velocity distribution plot
-  if app.veloDistCheckBox.Value
+  if inputParam.veloDistPlot
     f_velocitydist = figure(3);
     f_velocitydist.Position = [0, 0, 0, 0];
     
@@ -38,15 +47,15 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
       n1 = n2 + 1;
       n2 = n2 + np(k);
 
-      ignoreAxis(k) = subplot(2,2,k);
-      
+      ignoreAxis(k) = subplot(2,2,k);     
       i = n1:n2;
       h(k) = histogram2(vx(i), sqrt(vy(i).*vy(i) + vz(i).*vz(i)));
       h(k).XBinLimits = [-1*cv, cv];
       h(k).YBinLimits = [0, cv];
       h(k).NumBins = [2*num_v+1, num_v+1];
-      editableHistogram(1, k) = {h(k).Values}; %平行方向は-cvからcv, 垂直は0からcvの[2*num_v+1, num_v+1]行列
-      editableHistogram(1, k) = {cell2mat(editableHistogram(1, k)) ./ (pi*((cv/num_v)^3) * div) * abs(q(k))}; 
+      editableHistogram(1, k) = {h(k).Values};
+      editableHistogram(1, k) = ...
+      {cell2mat(editableHistogram(1, k)) ./ (pi*((cv/num_v)^3) * div) * abs(q(k))}; 
     end
     close(f_velocitydist);
 
@@ -58,15 +67,15 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     if jtime == ndskip
       tmp_editedHist = editableHistogram;
     end
-    plot_velocityDist(editableHistogram, ns, perp, para, cv, jtime, ndskip, dt, ntime, map, mapEJ, paramEJ.spName);
+    plot_velocityDist(editableHistogram, inputParam, veloDistAxis, pltColor, paramEJ.spName, jtime);
     
     writeVideo(v_velocitydist, frames_velocitydist);
+    if mod(jtime, floor(ntime/ndskip/20)) == 0
+      figFilename = ['veloDist', num2str(jtime), '.fig'];
+      savefig(editedVelocityDist, figFilename);
+      movefile(figFilename, figPath);
+    end
   end
-  
-  % figure of EJ plot
-  % if app.EJCheckBox.Value
-    
-  % end
 end
 
 % figure of w-kx-ky diagram

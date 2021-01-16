@@ -30,7 +30,6 @@ check.veloDistPlot = app.veloDistCheckBox.Value;
 check.wkxky = app.wkxkyCheckBox.Value;
 check.EJ = app.EJCheckBox.Value;
 EB.number = app.EBnumber;
-EB.nameInString = app.EBstring; 
 
 inputParam.startTime = app.startTime;
 inputParam.jobnumber = app.jobnumberEditField.Value;
@@ -48,6 +47,7 @@ inputParam.ajamp = app.ajampEditField.Value;
 inputParam.omega = app.omegajEditField.Value;
 inputParam.ndskip =  app.ndskip;
 inputParam.ns = app.nsSpinner.Value;
+inputParam.Species = app.UITable.Data;
 inputParam.qm = app.UITable.Data.qm';
 inputParam.pch = app.UITable.Data.pch';
 inputParam.wp = app.UITable.Data.wp';

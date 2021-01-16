@@ -7,17 +7,13 @@ kxkyw = fftshift(kxkyw, 3);
 kxkywMatFilename = 'kxkyw.mat';
 save(kxkywMatFilename, 'kxkyw', '-v7.3');
 movefile(kxkywMatFilename, newDirAbsolutePath);
-% disp(size(kxkyw))
-% kmax = 2*pi/dx / 2;
-wmax = 0.5*pi;
+
+wmax = 0.5*pi;  
 kmax = pi;
 dkx = 2*kmax/nx;
 dky = 2*kmax/ny;
 dw = 2*wmax/ntime;
-% w_axis = [0:halfSize_w] / (halfSize_w+1) * wmax / abs(wc/rnt);
-% w_axis = ([0:size(kxkyw, 3)-1]-size(kxkyw, 3)/2) / size(kxkyw, 3) * wmax * 2 / abs(wc/rnt) * 2;
 w_axis = [-size(kxkyw, 3)/2+1:size(kxkyw, 3)/2] * dw / abs(wc);
-% kx_axis = dkx * [0:size(kxkyw, 1)-1] * cv*rnv / abs(wc/rnt)*2;
 kx_axis = [0:size(kxkyw, 1)-1] * dkx * cv / abs(wc);
 ky_axis = [-size(kxkyw, 2)/2+1:size(kxkyw, 2)/2] * dky * cv / abs(wc);
 
@@ -26,7 +22,7 @@ fig.Name = 'Dispersion Relation';
 fig.Position = [0, 100, 1000, 350];
 ax(1) = subplot(1,2,1);
 im = imagesc(kx_axis, w_axis, squeeze(kxkyw(:,ny/2,:))');
-colormap(map); colorbar; shading flat;
+colormap(pltColor.map); colorbar; shading flat;
 caxis([-5, -2]);
 
 ax(1).YDir='normal';
@@ -38,7 +34,7 @@ ax(1).YLim = [0,30];
 
 ax(2) = subplot(1,2,2); im = imagesc(ky_axis, w_axis, squeeze(kxkyw(1,:,:))');
 colorbar; shading flat;
-colormap(map);
+colormap(pltColor.map);
 caxis([-5, -2]);
 
 ax(2).YDir='normal';
@@ -73,10 +69,10 @@ fig.Name = 'Oblique Dispersion Relation';
 fig.Position = [0, 100, 800, 600];
 ax = axes();
 im_krw = imagesc(krw');
-colormap(map); colorbar; shading flat;
+colormap(pltColor.map); colorbar; shading flat;
 ax.XLabel.String = 'k(mode)'; ax.YLabel.String = '\omega';
 ax.YDir = 'normal';
-ax.Title.String = sprintf('%s \n %3.3f degree oblique mode', cell2mat(app.EBstring(app.EBnumber)), rad2deg(atan(kx_div_ky)));
+ax.Title.String = sprintf('%s \n %3.3f degree oblique mode', cell2mat(EB.nameInString(EB.number);), rad2deg(atan(kx_div_ky)));
 % xDispersion = [0:dkx:20]*cos(deg2rad(thetaDispersion));
 % yDispersion = [0:dkx:20]*sin(deg2rad(thetaDispersion));
 % for i=1:size(kxkyw, 3)
@@ -87,7 +83,7 @@ ax.Title.String = sprintf('%s \n %3.3f degree oblique mode', cell2mat(app.EBstri
 % fig.Position = [0, 100, 1000, 350];
 
 % im = imagesc(krw);
-% colormap(map);
+% colormap(pltColor.map);
 % colorbar; shading flat;
 % caxis([-5, -2]);
 % % 斜め伝搬ここまで

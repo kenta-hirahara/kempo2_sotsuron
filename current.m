@@ -77,7 +77,7 @@ if ajamp == 0
 end
 % external current   
 % if jtime < ctime
-% ajz(nxc , nyc) = ajamp*sin(omega*2*itime); 
+ajz(nxc , nyc) = ajamp*sin(omega*2*itime); 
 % ajx(nxc , nyc) = ajamp*sin(omega*2*itime); 
-ajz(nxc , :) = ajamp*sin(omega*2*itime); 
+% ajz(nxc , :) = ajamp*sin(omega*2*itime); 
 % end
