@@ -77,7 +77,11 @@ if ajamp == 0
 end
 % external current   
 % if jtime < ctime
-ajz(nxc , nyc) = ajamp*sin(omega*2*itime); 
-% ajx(nxc , nyc) = ajamp*sin(omega*2*itime); 
-% ajz(nxc , :) = ajamp*sin(omega*2*itime); 
+% switch check.externalCurrentLocation
+%   case 0
+    ajz(nxc , nyc) = ajamp*sin(omega*2*itime); 
+  % case 1
+%     ajz(nxc , :) = ajamp*sin(omega*2*itime); 
 % end
+% % ajx(nxc , nyc) = ajamp*sin(omega*2*itime); 
+% % end

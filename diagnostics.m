@@ -1,7 +1,7 @@
 %diagnostics at an interval of dt*ndskip
 xyEB = {ex(X2,Y2)*rne, ey(X2,Y2)*rne, ez(X2,Y2)*rne, (bx(X2,Y2)-bx0)*rnb, (by(X2,Y2)-by0)*rnb, (bz(X2,Y2)-bz0)*rnb}; %これは全プロットで使うのでここに固定
 if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
-  energy;
+  energy_with_c;
 
   % figure of xy plot
   if inputParam.xyPlot
@@ -16,7 +16,7 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     if mod(jtime, floor(ntime/ndskip/20)) == 0
       figFilename = ['xy', num2str(jtime), '.fig'];
       savefig(f_xy, figFilename);
-      movefile(figFilename, figPath);
+      movefile(figFilename, figPath, 'f');
     end
   end
 
@@ -33,7 +33,7 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     if mod(jtime, floor(ntime/ndskip/20)) == 0
       figFilename = ['kxky', num2str(jtime), '.fig'];
       savefig(f_kxky, figFilename);
-      movefile(figFilename, figPath);
+      movefile(figFilename, figPath, 'f');
     end
   end
 
@@ -73,7 +73,7 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     if mod(jtime, floor(ntime/ndskip/20)) == 0
       figFilename = ['veloDist', num2str(jtime), '.fig'];
       savefig(editedVelocityDist, figFilename);
-      movefile(figFilename, figPath);
+      movefile(figFilename, figPath, 'f');
     end
   end
 end
@@ -81,7 +81,7 @@ end
 % figure of w-kx-ky diagram
 % if check.wkxky
   % Z = zeros(nx/2, ny/2);
-  kxky = fft2(cell2mat(xyEB(app.EBnumber)), nx, ny) / (nx*ny) * 4; 
+  kxky = fft2(cell2mat(xyEB(EB.number)), nx, ny) / (nx*ny) * 4; 
   %ここでk空間の行列の要素数を一気に減らす、これをnplot(ntimeの約数, とりあえずntime)回して格納した. 
   kxkyt(:, :, itime) = cat(2, kxky(1:nx/divide_k+1, 1:nx/divide_k+1), kxky(1:nx/divide_k+1, end-nx/divide_k+2:end));
 % end 
@@ -110,12 +110,12 @@ if itime == ntime
   ax(2) = subplot(1,2,2);
   plot(pt,At), xlabel('Time'),ylabel('Temperature Anisotropy');
   if ns==2
-      legend ('sp1','sp2');
+      legend('sp1','sp2');
   elseif ns ==3
       legend('sp1','sp2', 'sp3');
   end
   energyAndAnisFigName = strcat('energy_anisotropy_', fileWithoutDotM, '.fig');
   savefig(fig, energyAndAnisFigName);
-  movefile(energyAndAnisFigName, newDirAbsolutePath);
+  movefile(energyAndAnisFigName, newDirAbsolutePath, 'f');
   % fign_xy = fign_xy-1;
 end; 

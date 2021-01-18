@@ -1,5 +1,6 @@
 close all; clc;
 addpath('./pastJobs');
+addpath('./library');
 
 courantAlert;
 loadApp;
@@ -25,23 +26,22 @@ addpath('./colormap');
 pltColor.map = colormapTurbo;
 pltColor.mapEJ = colormapRdYlBu;
 EBstring = {'Ex', 'Ey', 'Ez', 'Bx', 'By', 'Bz'};
-% GUIから実行する場合はこれ以降5行をコメントアウト
-% addpath('./params/');
-% [filename,path] = uigetfile('./params/*.mat');
-% load(filename);
-% fileWithoutDotM = strtok(filename, '.');
-% fileOnlyAlphabet = strtok(filename, '_');
+% GUIから実行する場合は次の行をコメントアウト
+% addpath('./params/'); [filename,path] = uigetfile('./params/*.mat'); load(filename);
 
+ndskip = 32;
 if(jobnumber == 1) 
   renormalization;
   initialization;
   position; 
   charge;
+  % charge_with_c;
   potential;
   energy;
+  % energy_with_c;
 end  
 
-nkmax = 50; 
+nkmax = 50;
 endTime = startTime + ntime;
 
 openVideos;
@@ -51,8 +51,8 @@ dv = cv/num_v;
 div = 2*[1:num_v+1]-1;
 veloDistAxis.para = [-1:dv/cv:1];
 veloDistAxis.perp = [0:dv/cv:1];
-veloDistAxis.paraLabel = texlabel('v_{para}*c^(-1)');
-veloDistAxis.perpLabel = texlabel('v_{perp}*c^(-1)');
+veloDistAxis.paraLabel = '$v_{\parallel}c^{-1}$';
+veloDistAxis.perpLabel = '$v_{\perp}c^{-1}$';
 global tmp_editedHist
 
 parameterFileForContiniusJob = ['_jobnum' num2str(jobnumber) '_' startSimulationDatetime '.mat'];
@@ -62,26 +62,33 @@ paramEJ.direction = {'Parallel', 'Perpendicular', 'All directions'};
 divide_k = 2;
 kxkyt = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
 
+enableCAccel = true;
 tic;  
 for itime = 1:ntime
   jtime = jtime +1;
   bfield;
   rvelocity;
+  % rvelocity_with_c;
   position;
+  % current_with_c;
   current;
   if check.EJ
     calcEJ;
   end
+  if check.BJ
+    calcBJ;
+  end
   position;
   bfield;
   efield;
+  % charge_with_c;
   charge;
   potential;
   diagnostics;
   timeDisp = sprintf('Time = %10.3f / %10.3f', jtime*dt, ntime*dt);
   disp(timeDisp);
 end 
-kxkytMatFilename = ['kxkyt_', cell2mat(EBstring(EB.number)), '.mat';
+kxkytMatFilename = ['kxkyt_', cell2mat(EBstring(EB.number)), '.mat'];
 save(kxkytMatFilename, 'kxkyt', '-v7.3');
 movefile(kxkytMatFilename, newDirAbsolutePath);
 

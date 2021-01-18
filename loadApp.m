@@ -29,6 +29,8 @@ check.kxkyPlot = app.kxkyEkxkyBCheckBox.Value;
 check.veloDistPlot = app.veloDistCheckBox.Value;
 check.wkxky = app.wkxkyCheckBox.Value;
 check.EJ = app.EJCheckBox.Value;
+check.BJ = app.BJCheckBox.Value;
+check.externalCurrentLocation = app.externalCurrentLocation;
 EB.number = app.EBnumber;
 
 inputParam.startTime = app.startTime;
@@ -60,3 +62,7 @@ inputParam.kxkyPlot = app.kxkyEkxkyBCheckBox.Value;
 inputParam.veloDistPlot = app.veloDistCheckBox.Value;
 inputParam.wkxky = app.wkxkyCheckBox.Value;
 inputParam.EJ = app.EJCheckBox.Value;
+inputParam.BJ = app.BJCheckBox.Value;
+
+inputParam.externalCurrentLocation = app.externalCurrentLocation;
+inputParam.Fontsize = 20;

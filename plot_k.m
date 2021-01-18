@@ -21,8 +21,12 @@ function  plot_k(xyEB, k, prm, nkmax, pltColor, EBstring, jtime)
   sc(1).XData = 0:nkmax; sc(1).YData = 0:nkmax;
   ax(k).XLim = [0, 20]; ax(k).YLim = [0, 20]; 
   ax(k).YDir = 'normal';
-  ax(k).XLabel.String = 'kx(mode)'; ax(k).YLabel.String = 'ky(mode)';
-  % ax(k).ZLabel.String = cell2mat(EBstring(k));
+  ax(k).XLabel.Interpreter = 'latex';
+  ax(k).XLabel.FontSize = prm.Fontsize;
+  ax(k).XLabel.String = '$k_{x}$';
+  ax(k).YLabel.Interpreter = 'latex';
+  ax(k).YLabel.FontSize = prm.Fontsize;
+  ax(k).YLabel.String = '$k_{y}$';
   ax(k).Title.String = sprintf('%s \n Time = %10.3f / %10.3f', ...
   cell2mat(EBstring(k)), jtime*prm.dt, prm.ntime*prm.dt);
 end

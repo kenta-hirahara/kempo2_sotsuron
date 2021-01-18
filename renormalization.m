@@ -28,8 +28,4 @@ cv = cv/rnv;
 vPara = vPara/rnv;
 vPerp = vPerp/rnv;
 vd  = vd /rnv;
-ajamp = ajamp/rna;
-
-
-
-
+ajamp = ajamp/rna;  

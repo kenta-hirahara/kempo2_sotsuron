@@ -105,7 +105,12 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     ax(k).Title.String = sprintf('%s \n %s \n Time = %10.3f / %10.3f', ...
     cell2mat(paramEJ.spName(EJrow)), ...
     cell2mat(paramEJ.direction(EJcol)), jtime*dt, ntime*dt);
-    ax(k).XLabel.String = 'X'; ax(k).YLabel.String = 'Y';
+    ax(k).XLabel.Interpreter = 'latex';
+    ax(k).XLabel.FontSize = 20;
+    ax(k).XLabel.String = '$x$';
+    ax(k).YLabel.Interpreter = 'latex';
+    ax(k).YLabel.FontSize = 20;
+    ax(k).YLabel.String = '$y$';
     ax(k).YDir='normal';
     caxis([-3e-11, 3e-11]);
   end

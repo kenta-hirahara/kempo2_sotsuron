@@ -110,37 +110,38 @@ ycen = ylen*0.5;
 %   end
 %end   
 
-% Coefficiendts for Poisson Solver
-rkfact = zeros(nx,ny);
-rkxmin = pi/nx;
-rkymin = pi/ny;
-nxh = nx/2;
-nyh = ny/2;
-fftx = 1.0/nxh;
-ffty = 1.0/nyh;
-for j=3:ny
-  rky = sin(rkymin*floor((j-1)/2))*2.0;
-  for i=1:nx 
-    rkx = sin(rkxmin*floor((i-1)/2))*2.0;
-    rkfact(i,j) = 1.0/(rkx^2+rky^2);
-  end
-  rkx = 2.0;
-  rkfact(2,j) = 1.0/(rkx^2+rky^2);
+% Coefficiendts for Poisson Solver with FFTW
+k_fft = zeros(nx,ny);
+kx_min = pi/nx;
+ky_min = pi/ny;
+
+% Higher than first order
+% x = (1:kxmax), y = (1:kymax)
+for iy = 2:ny/2+1
+    rky  = sin(ky_min*(iy-1))*2.0;
+    for ix = 2:nx/2+1
+        rkx  = sin(kx_min*(ix-1))*2.0;
+        k_fft(ix,     iy     ) = 1.0/(rkx.^2+rky.^2);
+        k_fft(ix,     ny+2-iy) = 1.0/(rkx.^2+rky.^2);
+        k_fft(nx+2-ix,iy     ) = 1.0/(rkx.^2+rky.^2);
+        k_fft(nx+2-ix,ny+2-iy) = 1.0/(rkx.^2+rky.^2);
+    end
 end
-for i=3:nx 
-  rkx = sin(rkxmin*floor((i-1)/2))*2.0;
-  rkfact(i,1) = 1.0/(rkx^2);
+
+% x = 0, y =(1:kymax)
+for iy=2:ny/2+1
+  rky  = sin(ky_min*(iy-1))*2.0;
+  k_fft(1,iy     ) = 1.0/rky.^2;
+  k_fft(1,ny+2-iy) = 1.0/rky.^2;
 end
-rky = 2.0;
-for i=3:nx 
-   rkx = sin(rkxmin*floor((i-1)/2))*2.0;
-   rkfact(i,2) = 1.0/(rkx^2+rky^2);
+
+% x = (1:kxmax), y = 0
+for ix= 2:nx/2+1
+  rkx  = sin(kx_min*(ix-1))*2.0;
+  k_fft(ix,     1) = 1.0/rkx.^2;
+  k_fft(nx+2-ix,1) = 1.0/rkx.^2;
 end
-rkfact(1,2) = 1.0/(rky^2);
-rkx = 2.0;
-rkfact(2,2) = 1.0/(rkx^2+rky^2);
-rkfact(2,1) = 1.0/(rkx^2);
-rkfact(1,1) = 0.0;
+k_fft(1,1) = 0.0;
 %
 q = (xlen*ylen)./np(1:ns).*(wp(1:ns).^2)./qm(1:ns); %超粒子、1個あたりの粒子が持ってるweightがここで決まる, 
 % このqを使えばいい. ここはプラズマ周波数から計算してるので重み付けになっている. 
@@ -159,3 +160,6 @@ jtime = 0;
 rmax = dx*nx;
 rmin = 0.0;
 %ke=zeros(ntime,ns);
+isFirstTime = true;
+ke = zeros(floor(ntime/ndskip),ns);
+At = zeros(floor(ntime/ndskip),ns);
