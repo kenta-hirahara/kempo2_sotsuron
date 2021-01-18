@@ -69,10 +69,12 @@ nkx = 1;
 nky = 1;
 kx_div_ky = nkx/nky; % int/int
 ky_div_kx = nky/nkx; % int/int
-krw = zeros(size(kxkyw, 1), size(kxkyw, 3)/2+1); %wの正の部分のみ
+% krw = zeros(size(kxkyw, 1), size(kxkyw, 3)/2+1); %wの正の部分のみ
+numOfPoints = min(ceil(size(kxkyw,1)/nkx), ceil(size(kxkyw,1)/nky))
+krw = zeros(numOfPoints, size(kxkyw, 3)/2+1); %wの正の部分のみ
 for w=1:size(kxkyw, 3)/2+1
-  for i=1:size(kxkyw, 1)
-    krw(i, w) = kxkyw(i, nx/divide_k-1+i, w+ntime/2-1);
+  for i=1:numOfPoints
+    krw(i, w) = kxkyw(1+(i-1)*nkx, size(kxkyw)+(i-1)*nky, w+ntime/2-1);
   end
 end
 
