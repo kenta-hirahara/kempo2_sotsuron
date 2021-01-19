@@ -33,12 +33,10 @@ ndskip = 32;
 if(jobnumber == 1) 
   renormalization;
   initialization;
-  position; 
-  charge;
-  % charge_with_c;
+  position;
+  charge_with_c;
   potential;
-  energy;
-  % energy_with_c;
+  energy_with_c;
 end  
 
 nkmax = 50;
@@ -67,11 +65,9 @@ tic;
 for itime = 1:ntime
   jtime = jtime +1;
   bfield;
-  rvelocity;
-  % rvelocity_with_c;
+  rvelocity_with_c;
   position;
-  % current_with_c;
-  current;
+  current_with_c;
   if check.EJ
     calcEJ;
   end
@@ -81,8 +77,7 @@ for itime = 1:ntime
   position;
   bfield;
   efield;
-  % charge_with_c;
-  charge;
+  charge_with_c;
   potential;
   diagnostics;
   timeDisp = sprintf('Time = %10.3f / %10.3f', jtime*dt, ntime*dt);
