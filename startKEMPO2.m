@@ -28,8 +28,11 @@ pltColor.mapEJ = colormapRdYlBu;
 EBstring = {'Ex', 'Ey', 'Ez', 'Bx', 'By', 'Bz'};
 % GUIから実行する場合は次の行をコメントアウト
 % addpath('./params/'); [filename,path] = uigetfile('./params/*.mat'); load(filename);
-
+figNum = 1;
 ndskip = 32;
+nkmax = 50;
+endTime = startTime + ntime;
+
 if(jobnumber == 1) 
   renormalization;
   initialization;
@@ -37,10 +40,7 @@ if(jobnumber == 1)
   charge_with_c;
   potential;
   energy_with_c;
-end  
-
-nkmax = 50;
-endTime = startTime + ntime;
+end
 
 openVideos;
 
@@ -61,7 +61,7 @@ divide_k = 2;
 kxkyt = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
 
 enableCAccel = true;
-tic;  
+tic;
 for itime = 1:ntime
   jtime = jtime +1;
   bfield;

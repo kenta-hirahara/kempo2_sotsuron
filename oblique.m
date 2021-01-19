@@ -16,7 +16,10 @@ function  figNum = oblique(nkx, nky, kxkyw, kx_axis, w_axis, inputParam, pltColo
   fig.Position = [0, 100, 800, 600];
   ax = axes();
   im_krw = imagesc(kx_axis(1:nkx:numOfPoints*nkx)*k_norm, w_axis, krw');
-  colormap(pltColor.map); colorbar; shading flat;
+  colormap(pltColor.map); c = colorbar; shading flat;
+  c.Label.Interpreter = 'latex';
+  c.Label.FontSize = inputParam.Fontsize;
+  c.Label.String = ['$\log{10}|' cell2mat(EBstring(EB.number)) '|$'];
   ax.XLabel.Interpreter = 'latex';
   ax.XLabel.String = '$k$';
   ax.XLabel.FontSize = inputParam.Fontsize;
