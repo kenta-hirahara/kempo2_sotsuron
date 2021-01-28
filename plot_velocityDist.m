@@ -6,7 +6,7 @@ function plot_velocityDist(editableHistogram, inputParam, veloDistAxis, pltColor
     editedHist = cell2mat(editableHistogram(1, k))';
     imagesc(veloDistAxis.para, veloDistAxis.perp, editedHist);
     colormap(ax(k), pltColor.map); colorbar;
-    caxis([0, 2e6]/inputParam.vPara(k)/inputParam.vPerp(k));
+    caxis([0, 1e6]/inputParam.vPara(k)/inputParam.vPerp(k));
     ax(k).YDir = 'normal';
     ax(k).XLabel.Interpreter = 'latex';
     ax(k).XLabel.FontSize = inputParam.Fontsize;
