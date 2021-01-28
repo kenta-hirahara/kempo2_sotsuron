@@ -28,7 +28,7 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
     frames_kxky = getframe(f_kxky);
     for k =1:6 %E, Bの全成分プロット
       plot_k(xyEB, k, inputParam, nkmax, pltColor, EBstring, jtime);
-    end
+    end 
     writeVideo(v_kxkyEorB, frames_kxky);
     if mod(jtime, floor(ntime/ndskip/20)) == 0
       figFilename = ['kxky', num2str(jtime), '.fig'];
@@ -47,9 +47,17 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
       n1 = n2 + 1;
       n2 = n2 + np(k);
 
-      ignoreAxis(k) = subplot(2,2,k);     
+      ignoreAxis(k) = subplot(2,2,k);
       i = n1:n2;
-      h(k) = histogram2(vx(i), sqrt(vy(i).*vy(i) + vz(i).*vz(i)));
+      % 静磁場の方向をparaとする, paraは正負あり
+      v_xyz = [vx(i); vy(i); vz(i)];
+      v_para_vector = b0_xyz'*(b0_xyz*v_xyz)/b0/b0;
+      v_para_norm = sqrt(sum(v_para_vector.^2, 1));
+      logicalArray = b0_xyz*v_xyz > 0;
+      v_para_direction = v_para_norm .* logicalArray + v_para_norm .* (logicalArray-1);
+      v_perp_norm = sqrt(sum((v_xyz - v_para_vector).^2, 1));
+
+      h(k) = histogram2(v_para_direction, v_perp_norm);
       h(k).XBinLimits = [-1*cv, cv];
       h(k).YBinLimits = [0, cv];
       h(k).NumBins = [2*num_v+1, num_v+1];
@@ -82,40 +90,14 @@ end
 % if check.wkxky
   % Z = zeros(nx/2, ny/2);
   kxky = fft2(cell2mat(xyEB(EB.number)), nx, ny) / (nx*ny) * 4; 
-  %ここでk空間の行列の要素数を一気に減らす、これをnplot(ntimeの約数, とりあえずntime)回して格納した. 
   kxkyt(:, :, itime) = cat(2, kxky(1:nx/divide_k+1, 1:nx/divide_k+1), kxky(1:nx/divide_k+1, end-nx/divide_k+2:end));
 % end 
 
-% Diagnostics at the end of the job 
 % plotting time history of energies
 if itime == ntime
-  % fign_xy = fign_xy+1;
-  fig = figure(8);
-  fig.Name = 'Energy History and Temperature Anisotropy';
-  fig.Position = [0,0,1200,500];
-  frame = getframe(gcf);
-  ax(1) = subplot(1,2,1);
-  IT=(1:it);
-  pt = IT*dt*ndskip;
-  if ns==2
-    semilogy(pt, engt, pt, eepara,pt, eeperp,pt,ebpara,pt,ebperp,pt,ke(IT,1),pt,ke(IT,2));
-    legend('total','e-para','e-perp','b-para','b-perp','sp1','sp2');
-  elseif ns==3
-    semilogy(pt, engt, pt, eepara,pt, eeperp,pt,ebpara,pt,ebperp,pt,ke(IT,1),pt,ke(IT,2),pt,ke(IT,3));
-    legend('total','e-para','e-perp','b-para','b-perp','sp1','sp2','sp3');
-  end
-  title('Energy History');
-  %plotting time history of temperature anisotropy
-  % fign_xy = fign_xy+1;
-  ax(2) = subplot(1,2,2);
-  plot(pt,At), xlabel('Time'),ylabel('Temperature Anisotropy');
-  if ns==2
-      legend('sp1','sp2');
-  elseif ns ==3
-      legend('sp1','sp2', 'sp3');
-  end
-  energyAndAnisFigName = strcat('energy_anisotropy_', fileWithoutDotM, '.fig');
-  savefig(fig, energyAndAnisFigName);
-  movefile(energyAndAnisFigName, newDirAbsolutePath, 'f');
-  % fign_xy = fign_xy-1;
+  fig_energyTempAnis = plot_energyAnis_pastjobs(it, inputParam, engt, eepara, eeperp, ebpara, ebperp, ke, At);
+  energyAnisFilename = 'fig_energyTempAnis.fig';
+  savefig(fig_energyTempAnis, energyAnisFilename);
+  movefile(energyAnisFilename, newDirAbsolutePath);
+  clear fig_energyTempAnis;
 end; 
