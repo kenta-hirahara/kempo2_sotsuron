@@ -1,4 +1,4 @@
-function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz0,  x, y, q, vx, vy, vz, jtime, X2, Y2, pltColor, paramEJ, v_EJ, figPath)
+function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz0,  x, y, q, vx, vy, vz, jtime, X2, Y2, pltColor, v_EJ, figPath)
   b0_xyz = [bx0, by0, bz0];
   % 0. E*Jを描画する行列を初期化(1+ns, 3, nx+2行ny+2列の行列)
   EJplot = zeros(1+inputParam.ns, 3, nxp2, nyp2);
@@ -45,23 +45,15 @@ function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz
   
       % 4. q*v*Eを計算
       EJp = q(k) .* [vx(m), vy(m), vz(m)] .* E_particle;
+      % ここ修正の必要あり. vのpara求めて、EのparaとかけてE·Jpara求める. これをE·Jから引いたらE·Jperpもとまる
       % EJp_para = (dot(EJp, b0_xyz) / norm(b0_xyz)) * (b0_xyz/norm(b0_xyz));
       % EJp_perp = EJp - EJp_para;
       % 5. sf1,sf2,sf3,sf4を用いてE*Jを格納する行列へ配分
-      EJ(1, i ,j ) = EJ(1, i ,j ) + EJp(1)*sf1;
-      EJ(1, i1,j ) = EJ(1, i1,j ) + EJp(1)*sf2;
-      EJ(1, i1,j1) = EJ(1, i1,j1) + EJp(1)*sf3;
-      EJ(1, i,j1 ) = EJ(1, i ,j1) + EJp(1)*sf4;
-  
-      EJ(2, i ,j ) = EJ(2, i ,j ) + EJp(2)*sf1;
-      EJ(2, i1,j ) = EJ(2, i1,j ) + EJp(2)*sf2;
-      EJ(2, i1,j1) = EJ(2, i1,j1) + EJp(2)*sf3;
-      EJ(2, i,j1 ) = EJ(2, i ,j1) + EJp(2)*sf4;
-  
-      EJ(3, i ,j ) = EJ(3, i ,j ) + EJp(3)*sf1;
-      EJ(3, i1,j ) = EJ(3, i1,j ) + EJp(3)*sf2;
-      EJ(3, i1,j1) = EJ(3, i1,j1) + EJp(3)*sf3;
-      EJ(3, i,j1 ) = EJ(3, i ,j1) + EJp(3)*sf4;
+      
+      EJ(:, i ,j ) = EJ(:, i ,j ) + EJp(:)*sf1;
+      EJ(:, i1,j ) = EJ(:, i1,j ) + EJp(:)*sf2;
+      EJ(:, i1,j1) = EJ(:, i1,j1) + EJp(:)*sf3;
+      EJ(:, i,j1 ) = EJ(:, i ,j1) + EJp(:)*sf4;
     end
     % Species kについてもとまったので、これをEJplotに代入
     diffEJ = EJ - tmp;
@@ -70,25 +62,19 @@ function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz
     EJplot(1+k, 3, :, :) = diffEJ(1, :, :) + diffEJ(2, :, :) + diffEJ(3, :, :);
   end
   % 6. 境界条件の処理
-  EJ(1, 2,Y2) = EJ(1, 2 ,Y2) + EJ(1, nxp2,Y2  ); %Y2 = 2:ny+1;
-  EJ(1, X2,2) = EJ(1, X2,2 ) + EJ(1, X2  ,nyp2); %X2 = 2:nx+1;
-  EJ(1, 2,2)  = EJ(1, 2 ,2 ) + EJ(1, nxp2,nyp2);
-  
-  EJ(2, 2,Y2) = EJ(2, 2 ,Y2) + EJ(2, nxp2,Y2  );
-  EJ(2, X2,2) = EJ(2, X2,2 ) + EJ(2, X2  ,nyp2);
-  EJ(2, 2,2)  = EJ(2, 2 ,2 ) + EJ(2, nxp2,nyp2);
-  
-  EJ(3, 2,Y2) = EJ(3, 2 ,Y2) + EJ(3, nxp2,Y2  );
-  EJ(3, X2,2) = EJ(3, X2,2 ) + EJ(3, X2  ,nyp2);
-  EJ(3, 2,2)  = EJ(3, 2 ,2 ) + EJ(3, nxp2,nyp2);
-  
+  EJ(:, 2,Y2) = EJ(:, 2 ,Y2) + EJ(:, nxp2,Y2  ); %Y2 = 2:ny+1;
+  EJ(:, X2,2) = EJ(:, X2,2 ) + EJ(:, X2  ,nyp2); %X2 = 2:nx+1;
+  EJ(:, 2,2)  = EJ(:, 2 ,2 ) + EJ(:, nxp2,nyp2);
+
   % perp方向を求めてEJ(2, :, :)に代入してしまう
   EJplot(1, 1, :, :) = EJ(1, :, :); % parallel
   EJplot(1, 2, :, :) = EJ(2, :, :) + EJ(3, :, :); % perpendicular
   EJplot(1, 3, :, :) = EJ(1, :, :) + EJ(2, :, :) + EJ(3, :, :); % all directions
   
   % figure of EJ plot
-  if mod(jtime, inputParam.ndskip) == 0 %inputParam.ndskipつまり8の倍数の時だけ描画
+  paramEJ.spName = {'All Species', 'Species 1', 'Species 2', 'Species 3', 'Species 4'};
+  paramEJ.direction = {'$E_{\parallel}\cdot J_{\parallel}$', '$E_{\perp}\cdot J_{\perp}$', '$E\cdot J$'};
+  % if mod(jtime, inputParam.ndskip) == 0 %inputParam.ndskipの倍数の時だけ描画
     f_EJ = figure(88);
     f_EJ.Position = [0, 0, 1400, 900];
     f_EJ.Name = 'EJ plot';
@@ -104,18 +90,23 @@ function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz
       end
       EJrow = (k-EJcol)/3+1;
       ax(k) = subplot(inputParam.ns+1, 3, k); imagesc(squeeze(EJplot(EJrow, EJcol, X2, Y2))');
-      colormap(pltColor.mapEJ); colorbar; shading flat;
+      colormap(pltColor.mapEJ); 
+      c(k) = colorbar; shading flat;
+      ax(k).Title.FontSize = inputParam.Fontsize*0.8;
+      ax(k).Title.Interpreter = 'latex';
       ax(k).DataAspectRatio = [100, 100, 1];
-      ax(k).Title.String = sprintf('%s \n %s \n Time = %10.3f / %10.3f', ...
+      ax(k).Title.String = sprintf('%s, %s \n Time = %10.3f / %10.3f', ...
       cell2mat(paramEJ.spName(EJrow)), ...
       cell2mat(paramEJ.direction(EJcol)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
+      ax(k).LineWidth = 2;
       ax(k).XLabel.Interpreter = 'latex';
-      ax(k).XLabel.FontSize = 20;
+      ax(k).XLabel.FontSize = inputParam.Fontsize*0.8;
       ax(k).XLabel.String = '$x$';
       ax(k).YLabel.Interpreter = 'latex';
-      ax(k).YLabel.FontSize = 20;
+      ax(k).YLabel.FontSize = inputParam.Fontsize*0.8;
       ax(k).YLabel.String = '$y$';
       ax(k).YDir='normal';
+      c(k).LineWidth = 2;
       caxis([-3e-11, 3e-11]);
     end
     writeVideo(v_EJ, frames_EJ);
@@ -124,5 +115,5 @@ function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz
       savefig(f_EJ, figFilename);
       movefile(figFilename, figPath);
     end
-  end
+  % end
 end

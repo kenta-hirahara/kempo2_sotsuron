@@ -1,6 +1,6 @@
-function fig_energyTempAnis = plot_energyAnis_pastjobs(it, inputParam, engt, eepara, eeperp, ebpara, ebperp, ke, At)
-  
-  energyCatenated = cat(1, engt, eepara, eeperp, ebpara, ebperp, ke');
+function fig_energyTempAnis = plot_energyAnis_pastjobs(it, inputParam,ndskip, energyCatenated, At)
+    
+  % energyCatenated = cat(1, engt, eepara, eeperp, ebpara, ebperp, ke');
 
   fig_energyTempAnis = figure(8);
   fig_energyTempAnis.Name = 'Energy History and Temperature Anisotropy';
@@ -9,9 +9,9 @@ function fig_energyTempAnis = plot_energyAnis_pastjobs(it, inputParam, engt, eep
   
   ax_energy = subplot(1,2,1);
   IT=(1:it);    
-  pt = IT*inputParam.dt*inputParam.ndskip;
+  pt = IT*inputParam.dt*ndskip; 
   for i = 1:5+inputParam.ns
-    s(i) = semilogy(energyCatenated(i,:));
+    s(i) = semilogy(pt, energyCatenated(i,:));
     s(i).LineWidth = 1;
     hold on;
   end
@@ -24,14 +24,14 @@ function fig_energyTempAnis = plot_energyAnis_pastjobs(it, inputParam, engt, eep
   lgd_energy.Interpreter = 'latex';
   lgd_energy.Orientation = 'horizontal';
   lgd_energy.Location = 'southeast';
-  lgd_energy.FontSize = 14 ;
+  lgd_energy.FontSize = inputParam.Fontsize*0.8;
   lgd_energy.NumColumns = 3;
-  lgd_energy.LineWidth = 1;
+  lgd_energy.LineWidth = 2;
 
   ax_TempAnis = subplot(1,2,2);
   for j = 1:inputParam.ns
     pltAnis(j) = plot(pt,At(:,j)');
-    pltAnis(j).LineWidth = 1;
+    pltAnis(j).LineWidth = 1.4;
     hold on;
   end
   hold off;
@@ -39,28 +39,33 @@ function fig_energyTempAnis = plot_energyAnis_pastjobs(it, inputParam, engt, eep
   lgd_TempAnis = legend(speciesNames(1:inputParam.ns));
   lgd_TempAnis.Box = 'on';
   lgd_TempAnis.Interpreter = 'latex';
-  lgd_TempAnis.FontSize = 14;
-  lgd_TempAnis.LineWidth = 1;
+  lgd_TempAnis.FontSize = inputParam.Fontsize*0.8;
+  lgd_TempAnis.LineWidth = 2;
 
-  ax_energy.LineWidth = 1;
+  ax_energy.FontSize = inputParam.Fontsize*0.8;
+  ax_energy.FontWeight = 'bold';
+  ax_energy.TickLabelInterpreter = 'latex'
+  ax_energy.LineWidth = 2;
   ax_energy.Box = 'on';
-  ax_energy.Title.String = 'Energy History';
-  ax_energy.Title.FontSize = inputParam.Fontsize*0.8;
+  % ax_energy.Title.Interpreter = 'latex';
+  ax_energy.Title.String = 'Energy';
+  ax_energy.Title.FontSize = inputParam.Fontsize;
   ax_energy.XLabel.Interpreter = 'latex';
-  ax_energy.XLabel.FontSize = inputParam.Fontsize;
+  ax_energy.XLabel.FontSize = inputParam.Fontsize*1.2;
   ax_energy.XLabel.String = '$t\Omega_e$'; 
   ax_energy.YLabel.Interpreter = 'latex';
-  ax_energy.YLabel.FontSize = inputParam.Fontsize;
+  ax_energy.YLabel.FontSize = inputParam.Fontsize*1.2;
   ax_energy.YLabel.String = '$K$'; 
 
-  ax_TempAnis.LineWidth = 1;
+  ax_TempAnis.FontSize = inputParam.Fontsize*0.8;
+  ax_TempAnis.LineWidth = 2;
   ax_TempAnis.Box = 'on';
   ax_TempAnis.Title.String = 'Temperature Anisotropy';
-  ax_TempAnis.Title.FontSize = inputParam.Fontsize*0.8;
+  ax_TempAnis.Title.FontSize = inputParam.Fontsize;
   ax_TempAnis.XLabel.Interpreter = 'latex';
-  ax_TempAnis.XLabel.FontSize = inputParam.Fontsize;
+  ax_TempAnis.XLabel.FontSize = inputParam.Fontsize*1.2;
   ax_TempAnis.XLabel.String = '$t\Omega_e$';
   ax_TempAnis.YLabel.Interpreter = 'latex';
-  ax_TempAnis.YLabel.FontSize = inputParam.Fontsize;
+  ax_TempAnis.YLabel.FontSize = inputParam.Fontsize*1.2;
   ax_TempAnis.YLabel.String = '$A$'; 
 end

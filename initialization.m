@@ -15,6 +15,7 @@ sinph = sin(deg2rad(phi));
 bx0 = b0*sinth*cosph;
 by0 = b0*sinth*sinph;
 bz0 = b0*costh;
+b0_xyz = [bx0, by0, bz0];
 csq = cv*cv;
 tcs = 2.0*csq;
 it = 0;
@@ -40,7 +41,6 @@ it = 0;
 %  exind = zeros(nxp2, nyp2);
 %  exind(nx/4+1:nx/4*3, ny/8*3+1:ny/8*5) = ones(nx/4*2, ny/8*2)*exinductive;
 
-  
 % Indiex Arry for Matrix Operation
   X1 = 1:nx;
   Y1 = 1:ny;
