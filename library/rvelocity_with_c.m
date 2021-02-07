@@ -1,0 +1,1 @@
+[vx, vy, vz] = c_rvelocity(x,y,vx,vy,vz,ns,np,qm,cv,ex,ey,ez,bx,by,bz);

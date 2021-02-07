@@ -68,6 +68,7 @@ inputParam.directionJ = app.ButtonGroup.SelectedObject.Text;
 inputParam.xButton = app.xButton.Value;
 inputParam.yButton = app.yButton.Value;
 inputParam.zButton = app.zButton.Value;
+inputParam.xyButton = app.xyButton.Value;
 inputParam.sigmoidJ = app.sigmoidButton.Value;
 inputParam.externalCurrentLocation = app.locationDropDown.Value;
 inputParam.poisson = app.SolvepoissonequationCheckBox.Value;
