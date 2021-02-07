@@ -32,8 +32,9 @@ function  plot_k(xyEB, k, inputParam, nkmax, pltColor, jtime)
   ax(k).YLabel.Interpreter = 'latex';
   ax(k).YLabel.FontSize = inputParam.Fontsize;
   ax(k).YLabel.String = '$k_{y}$';
-  ax(k).Title.String = sprintf('$%s$ \n Time = %10.3f / %10.3f', ...
+  tmpTitle = sprintf('$%s$ \n Time = %10.3f / %10.3f', ...
   cell2mat(forTitle(k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
+  ax(k).Title.String = replace(tmpTitle, 'Time', '$t\Omega_e$');
   ax(k).LineWidth = 2;
   c(k).LineWidth = 2;
 end

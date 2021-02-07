@@ -22,20 +22,21 @@ function plot_xy(xyEB, pltColor, k, jtime, inputParam)
   ax(k).XLabel.Interpreter = 'latex';
   ax(k).XLabel.FontSize = inputParam.Fontsize;
   ax(k).XLabel.String = '$x$';
-  ax(k).YLabel.Interpreter = 'latex';
+  ax(k).YLabel.Interpreter = 'latex'; 
   ax(k).YLabel.FontSize = inputParam.Fontsize;
   ax(k).YLabel.String = '$y$';
   forTitle = {'E_x', 'E_y', 'E_z', 'B_x', 'B_y', 'B_z'};
   if inputParam.ajamp
     if jtime < inputParam.ctime
-      ax(k).Title.String = sprintf('$%s$ \n Time = %10.3f / %10.3f \n $J_{ext}$ direction: %s',...
+      tmpTitle = sprintf('$%s$ \n Time = %10.3f / %10.3f \n $J_{ext}$ direction: %s',...
           cell2mat(forTitle(k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt, inputParam.directionJ);
     else
-      ax(k).Title.String = sprintf('$%s$ \n Time = %10.3f / %10.3f \n $J_{ext}$ %s stopped',...
+      tmpTitle = sprintf('$%s$ \n Time = %10.3f / %10.3f \n $J_{ext}$ %s stopped',...
           cell2mat(forTitle(k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt, inputParam.directionJ);
     end
   else
-  ax(k).Title.String = sprintf('$%s$ \n Time = %10.3f / %10.3f',...
+  tmpTitle = sprintf('$%s$ \n Time = %10.3f / %10.3f',...
     cell2mat(forTitle(k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
   end
+  ax(k).Title.String = replace(tmpTitle, 'Time', '$t\Omega_e$');
 end

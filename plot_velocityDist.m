@@ -35,9 +35,9 @@ function plot_velocityDist(editableHistogram, inputParam, veloDistAxis, pltColor
     ax(k).YLabel.FontSize = inputParam.Fontsize;
     ax(k).YLabel.String = veloDistAxis.perpLabel;
     ax(k).DataAspectRatio = [100, 100, 1];
-    ax(k).Title.String = sprintf('%s \n Time = %10.3f / %10.3f', ...
+    tmpTitle = sprintf('%s \n Time = %10.3f / %10.3f', ...
     cell2mat(spName(1+k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
-    
+    ax(k).Title.String = replace(tmpTitle, 'Time', '$t\Omega_e$');
     diff_ax(k) = subplot(inputParam.ns, 2, 2*k);
     imagesc(veloDistAxis.para, veloDistAxis.perp, editedHist-cell2mat(tmp_editedHist(1, k))');
     hold on;
@@ -64,7 +64,8 @@ function plot_velocityDist(editableHistogram, inputParam, veloDistAxis, pltColor
     diff_ax(k).YLabel.FontSize = inputParam.Fontsize;
     diff_ax(k).YLabel.String = veloDistAxis.perpLabel;  
     diff_ax(k).DataAspectRatio = [100, 100, 1];
-    diff_ax(k).Title.String = sprintf('diff %s \n Time = %10.3f / %10.3f', ...
+    diff_tmpTitle = sprintf('diff %s \n Time = %10.3f / %10.3f', ...
     cell2mat(spName(1+k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
+    diff_ax(k).Title.String = replace(diff_tmpTitle , 'Time', '$t\Omega_e$');
   end
 end

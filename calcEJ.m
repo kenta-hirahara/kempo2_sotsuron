@@ -95,9 +95,10 @@ function calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz
       ax(k).Title.FontSize = inputParam.Fontsize*0.8;
       ax(k).Title.Interpreter = 'latex';
       ax(k).DataAspectRatio = [100, 100, 1];
-      ax(k).Title.String = sprintf('%s, %s \n Time = %10.3f / %10.3f', ...
+      tmpTitle = sprintf('%s, %s \n Time = %10.3f / %10.3f', ...
       cell2mat(paramEJ.spName(EJrow)), ...
       cell2mat(paramEJ.direction(EJcol)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
+      ax(k).Title.String = replace(tmpTitle, 'Time', '$t\Omega_e$');
       ax(k).LineWidth = 2;
       ax(k).XLabel.Interpreter = 'latex';
       ax(k).XLabel.FontSize = inputParam.Fontsize*0.8;
