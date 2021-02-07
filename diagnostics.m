@@ -89,8 +89,30 @@ if mod(jtime, ndskip) == 0 %ndskipつまり8の倍数の時だけ描画
   end
 end
 
-  kxky = fft2(cell2mat(xyEB(EB.number)), nx, ny) / (nx*ny) * 4; 
-  kxkyt(:, :, itime) = cat(2, kxky(1:nx/divide_k+1, 1:nx/divide_k+1), kxky(1:nx/divide_k+1, end-nx/divide_k+2:end));
+if inputParam.dispersionEx 
+  kxkyEx = fft2(cell2mat(xyEB(1)), nx, ny) / (nx*ny) * 4; 
+  kxkytEx(:, :, itime) = cat(2, kxkyEx(1:nx/divide_k+1, 1:nx/divide_k+1), kxkyEx(1:nx/divide_k+1, end-nx/divide_k+2:end));
+end
+if inputParam.dispersionEy 
+  kxkyEy = fft2(cell2mat(xyEB(2)), nx, ny) / (nx*ny) * 4; 
+  kxkytEy(:, :, itime) = cat(2, kxkyEy(1:nx/divide_k+1, 1:nx/divide_k+1), kxkyEy(1:nx/divide_k+1, end-nx/divide_k+2:end));
+end
+if inputParam.dispersionEz 
+  kxkyEz = fft2(cell2mat(xyEB(3)), nx, ny) / (nx*ny) * 4; 
+  kxkytEz(:, :, itime) = cat(2, kxkyEz(1:nx/divide_k+1, 1:nx/divide_k+1), kxkyEz(1:nx/divide_k+1, end-nx/divide_k+2:end));
+end
+if inputParam.dispersionBx 
+  kxkyBx = fft2(cell2mat(xyEB(4)), nx, ny) / (nx*ny) * 4; 
+  kxkytBx(:, :, itime) = cat(2, kxkyBx(1:nx/divide_k+1, 1:nx/divide_k+1), kxkyBx(1:nx/divide_k+1, end-nx/divide_k+2:end));
+end
+if inputParam.dispersionBy 
+  kxkyBy = fft2(cell2mat(xyEB(5)), nx, ny) / (nx*ny) * 4; 
+  kxkytBy(:, :, itime) = cat(2, kxkyBy(1:nx/divide_k+1, 1:nx/divide_k+1), kxkyBy(1:nx/divide_k+1, end-nx/divide_k+2:end));
+end
+if inputParam.dispersionBz 
+  kxkyBz = fft2(cell2mat(xyEB(6)), nx, ny) / (nx*ny) * 4; 
+  kxkytBz(:, :, itime) = cat(2, kxkyBz(1:nx/divide_k+1, 1:nx/divide_k+1), kxkyBz(1:nx/divide_k+1, end-nx/divide_k+2:end));
+end
 
 % plotting time history of energies
 if itime == ntime

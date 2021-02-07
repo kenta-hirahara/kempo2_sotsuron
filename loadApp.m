@@ -27,10 +27,10 @@ fileOnlyAlphabet = app.fileOnlyAlphabet;
 check.xyPlot = app.xyExyBCheckBox.Value;
 check.kxkyPlot = app.kxkyEkxkyBCheckBox.Value;
 check.veloDistPlot = app.veloDistCheckBox.Value;
-check.wkxky = app.wkxkyCheckBox.Value;
+% check.wkxky = app.wkxkyCheckBox.Value;
 check.EJ = app.EJCheckBox.Value;
-check.BJ = app.BJCheckBox.Value;
-EB.number = app.EBnumber;
+% check.BJ = app.BJCheckBox.Value;
+% EB.number = app.EBnumber;
 
 inputParam.startTime = app.startTime;
 inputParam.jobnumber = app.jobnumberEditField.Value;
@@ -61,9 +61,9 @@ inputParam.vPara = app.UITable.Data.vPara';
 inputParam.check_xyPlot = app.xyExyBCheckBox.Value;
 inputParam.check_kxkyPlot = app.kxkyEkxkyBCheckBox.Value;
 inputParam.check_veloDistPlot = app.veloDistCheckBox.Value;
-inputParam.check_wkxky = app.wkxkyCheckBox.Value;
+% inputParam.check_wkxky = app.wkxkyCheckBox.Value;
 inputParam.check_EJ = app.EJCheckBox.Value;
-inputParam.check_BJ = app.BJCheckBox.Value;
+% inputParam.check_BJ = app.BJCheckBox.Value;
 inputParam.directionJ = app.ButtonGroup.SelectedObject.Text;
 inputParam.xButton = app.xButton.Value;
 inputParam.yButton = app.yButton.Value;
@@ -72,3 +72,19 @@ inputParam.sigmoidJ = app.sigmoidButton.Value;
 inputParam.externalCurrentLocation = app.locationDropDown.Value;
 inputParam.poisson = app.SolvepoissonequationCheckBox.Value;
 inputParam.Fontsize = 20;
+inputParam.dispersionEx = app.ExCheckBox.Value;
+inputParam.dispersionEy = app.EyCheckBox.Value;
+inputParam.dispersionEz = app.EzCheckBox.Value;
+inputParam.dispersionBx = app.BxCheckBox.Value;
+inputParam.dispersionBy = app.ByCheckBox.Value;
+inputParam.dispersionBz = app.BzCheckBox.Value;
+
+            % app.ExCheckBox.Value = inputParam.dispersionEx;
+            % app.EyCheckBox.Value = inputParam.dispersionEy;
+            % app.EzCheckBox.Value = inputParam.dispersionEz;
+            % app.BxCheckBox.Value = inputParam.dispersionBx;
+            % app.ByCheckBox.Value = inputParam.dispersionBy;
+            % app.BzCheckBox.Value = inputParam.dispersionBz;
+
+
+

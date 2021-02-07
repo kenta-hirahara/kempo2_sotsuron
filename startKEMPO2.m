@@ -1,4 +1,7 @@
 close all;
+if ~isfolder('pastJobs')
+  mkdir('pastJobs');
+end
 addpath('./pastJobs');
 addpath('./library');
 
@@ -31,6 +34,7 @@ pltColor.map = colormapTurbo;
 pltColor.mapEJ = colormapRdYlBu;
 EBstring = {'Ex', 'Ey', 'Ez', 'Bx', 'By', 'Bz'};
 EBtex = {'$E_x$', '$E_y$', '$E_z$', '$B_x$', '$B_y$', '$B_z$'};
+EBtexCat = {'E_{x}', 'E_{y}', 'E_{z}', 'B_{x}', 'B_{y}', 'B_{z}'};
 % GUIから実行する場合は次の行をコメントアウト
 % addpath('./params/'); [filename,path] = uigetfile('./params/*.mat'); load(filename);
 figNum = 1;
@@ -67,7 +71,25 @@ parameterFileForContiniusJob = ['_jobnum' num2str(jobnumber) '_' datetimePath '.
 % paramEJ.direction = {'Parallel', 'Perpendicular', 'All directions'};
 
 divide_k = 2;
-kxkyt = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+
+if inputParam.dispersionEx
+  kxkytEx = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+end
+if inputParam.dispersionEy
+  kxkytEy = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+end
+if inputParam.dispersionEz
+  kxkytEz = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+end
+if inputParam.dispersionBx
+  kxkytBx = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+end
+if inputParam.dispersionBy
+  kxkytBy = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+end
+if inputParam.dispersionBz
+  kxkytBz = zeros(nx/divide_k+1, ny*2/divide_k, ntime);
+end
 
 enableCAccel = true;
 tic;
@@ -81,9 +103,9 @@ for itime = 1:ntime
     % calcEJ_with_c(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz0,  x, y, q, vx, vy, vz, jtime, X2, Y2, pltColor, v_EJ, figPath);
     calcEJ(inputParam, nxp1, nxp2, nyp1, nyp2, np, ex, ey, ez, bx0, by0, bz0,  x, y, q, vx, vy, vz, jtime, X2, Y2, pltColor, v_EJ, figPath);
   end
-  if inputParam.check_BJ
-    calcBJ;
-  end
+%   if inputParam.check_BJ
+%     calcBJ;
+%   end
   position;
   bfield;
   efield;
@@ -107,9 +129,28 @@ clear v_velocitydist  ignoreAxis;
 save(parameterFileForContiniusJob, '-v7.3');
 movefile(parameterFileForContiniusJob, newDirAbsolutePath);
 
-if check.wkxky
-  disp('Culculating For Dispersion Plot');
-  dispersionPlot;
+% if check.wkxky
+%   disp('Culculating For Dispersion Plot');
+%   dispersionPlot;
+% end
+dispersionFigNum = 11;
+if inputParam.dispersionEx
+dispersionFigNum = dispersionPlot(kxkytEx, cv, wc, newDirAbsolutePath, inputParam, pltColor, EBtex, EBtexCat, startSimulationDatetime, 1, dispersionFigNum);
+end
+if inputParam.dispersionEy
+dispersionFigNum = dispersionPlot(kxkytEy, cv, wc, newDirAbsolutePath, inputParam, pltColor, EBtex, EBtexCat, startSimulationDatetime, 2, dispersionFigNum);
+end
+if inputParam.dispersionEz
+dispersionFigNum = dispersionPlot(kxkytEz, cv, wc, newDirAbsolutePath, inputParam, pltColor, EBtex, EBtexCat, startSimulationDatetime, 3, dispersionFigNum);
+end
+if inputParam.dispersionBx;
+dispersionFigNum = dispersionPlot(kxkytBx, cv, wc, newDirAbsolutePath, inputParam, pltColor, EBtex, EBtexCat, startSimulationDatetime, 4, dispersionFigNum);
+end
+if inputParam.dispersionBy
+dispersionFigNum = dispersionPlot(kxkytBy, cv, wc, newDirAbsolutePath, inputParam, pltColor, EBtex, EBtexCat, startSimulationDatetime, 5, dispersionFigNum);
+end
+if inputParam.dispersionBz
+dispersionFigNum = dispersionPlot(kxkytBz, cv, wc, newDirAbsolutePath, inputParam, pltColor, EBtex, EBtexCat, startSimulationDatetime, 6, dispersionFigNum);
 end
 
 disp('Successfully Finished. Files are stored to:');

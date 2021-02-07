@@ -28,10 +28,10 @@ if check.EJ
   % v_EJ.FrameRate = 30;
   open(v_EJ);
 end
-if check.BJ
-  BJvideoFileName = strcat(fileWithoutDotM, '_BJ_', num2str(endTime), '_', datetimePath, '.mp4');
-  v_BJ = VideoWriter(BJvideoFileName, 'MPEG-4');
-  v_BJ.FrameRate = max(minFramerate, floor(ntime/ndskip/videoDuration));
-  % v_BJ.FrameRate = 30;
-  open(v_BJ);
-end
+% if check.BJ
+%   BJvideoFileName = strcat(fileWithoutDotM, '_BJ_', num2str(endTime), '_', datetimePath, '.mp4');
+%   v_BJ = VideoWriter(BJvideoFileName, 'MPEG-4');
+%   v_BJ.FrameRate = max(minFramerate, floor(ntime/ndskip/videoDuration));
+%   % v_BJ.FrameRate = 30;
+%   open(v_BJ);
+% end

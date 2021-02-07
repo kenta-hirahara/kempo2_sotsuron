@@ -18,11 +18,8 @@ function  figNum = oblique(nkx, nky, kxkyw, kx_axis, w_axis, inputParam, pltColo
   ax = axes();
   im_krw = imagesc(kx_axis(1:nkx:numOfPoints*nkx)*k_norm, w_axis, krw');
 
-  hold on
-  w = [0:0.001:20];
-  ksq = (w.^2+(w*inputParam.wp(1))./(1-w))/(inputParam.cv^2);
-  p = plot(sqrt(ksq)*inputParam.cv,w);
-  hold off
+
+  
 
   colormap(pltColor.map); c = colorbar; shading flat;
   c.Label.Interpreter = 'latex';

@@ -1,6 +1,6 @@
 % computing charge density defined at (F,F) grids
 
-rho = rho0;
+rho = rho0; %rho0がイオンの電荷に相当
 
 n2 = 0;
 for  k=1:ns
