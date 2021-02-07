@@ -8,7 +8,37 @@ function plot_velocityDist(editableHistogram, inputParam, veloDistAxis, pltColor
   circ_y = sin(thetaForCirc)*0.2;
 
   for k = 1:inputParam.ns
-    ax(k) = subplot(inputParam.ns, 2, 2*k-1);
+    init_ax(k) = subplot(inputParam.ns, 3, 3*k-2);
+    editedHist = cell2mat(editableHistogram(1, k))';
+    imagesc(veloDistAxis.para, veloDistAxis.perp, cell2mat(tmp_editedHist(1, k))');
+    hold on;
+    for circIter = 1:4
+      p(circIter) = plot(circ_x*circIter, circ_y*circIter);
+      p(circIter).LineWidth = 1;
+      p(circIter).LineStyle = '-.';     
+      p(circIter).Color = [1, 1, 1];
+      hold on;
+    end
+    hold off;
+    colormap(init_ax(k), pltColor.map); init_c(k) = colorbar;
+    caxis([0, 2e5]/inputParam.vPara(k)/(inputParam.vPerp(k)^2));
+    init_c(k).LineWidth = 2;
+    init_ax(k).Title.Interpreter = 'latex';
+    init_ax(k).FontSize = inputParam.Fontsize;
+    init_ax(k).LineWidth = 2;
+    % ax(k).Title.Interpreter = 'latex';
+    init_ax(k).YDir = 'normal';
+    init_ax(k).XLabel.Interpreter = 'latex';
+    init_ax(k).XLabel.FontSize = inputParam.Fontsize;
+    init_ax(k).XLabel.String = veloDistAxis.paraLabel;
+    init_ax(k).YLabel.Interpreter = 'latex';
+    init_ax(k).YLabel.FontSize = inputParam.Fontsize;
+    init_ax(k).YLabel.String = veloDistAxis.perpLabel;
+    init_ax(k).DataAspectRatio = [100, 100, 1];
+    init_tmpTitle = sprintf('%s initial \n Time = 0', cell2mat(spName(1+k)));
+    init_ax(k).Title.String = replace(init_tmpTitle, 'Time', '$t\Omega_e$');
+
+    ax(k) = subplot(inputParam.ns, 3, 3*k-1);
     editedHist = cell2mat(editableHistogram(1, k))';
     imagesc(veloDistAxis.para, veloDistAxis.perp, editedHist);
     hold on;
@@ -38,7 +68,9 @@ function plot_velocityDist(editableHistogram, inputParam, veloDistAxis, pltColor
     tmpTitle = sprintf('%s \n Time = %10.3f / %10.3f', ...
     cell2mat(spName(1+k)), jtime*inputParam.dt, inputParam.ntime*inputParam.dt);
     ax(k).Title.String = replace(tmpTitle, 'Time', '$t\Omega_e$');
-    diff_ax(k) = subplot(inputParam.ns, 2, 2*k);
+
+
+    diff_ax(k) = subplot(inputParam.ns, 3, 3*k);
     imagesc(veloDistAxis.para, veloDistAxis.perp, editedHist-cell2mat(tmp_editedHist(1, k))');
     hold on;
     for diff_circIter = 1:4
