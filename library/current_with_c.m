@@ -51,7 +51,10 @@ if jtime %< ctime
         case 'y'
           ajy(nxc , nyc) = externalCurrent;  
         case 'z'
-          ajz(nxc , nyc) = externalCurrent;  
+          ajz(nxc , nyc) = externalCurrent;
+        case 'x = y'
+          ajx(nxc , nyc) = externalCurrent*cos(pi/4);
+          ajy(nxc , nyc) = externalCurrent*sin(pi/4);              
       end
     case 'center_x'
       switch inputParam.directionJ
@@ -60,7 +63,10 @@ if jtime %< ctime
         case 'y'
           ajy(nxc , :) = externalCurrent;  
         case 'z'
-          ajz(nxc , :) = externalCurrent;  
+          ajz(nxc , :) = externalCurrent;
+        case 'x = y'
+          ajx(nxc , :) = externalCurrent*cos(pi/4);
+          ajy(nxc , :) = externalCurrent*sin(pi/4);              
       end
     case 'center_y'
       switch inputParam.directionJ
@@ -69,7 +75,10 @@ if jtime %< ctime
         case 'y'
           ajy(: , nyc) = externalCurrent;  
         case 'z'
-          ajz(: , nyc) = externalCurrent; 
+          ajz(: , nyc) = externalCurrent;
+        case 'x = y'
+          ajx(: , nyc) = externalCurrent*cos(pi/4);
+          ajy(: , nyc) = externalCurrent*sin(pi/4);             
       end
   end
 end
