@@ -3,14 +3,10 @@ function plot_xy(xyEB, pltColor, k, jtime, inputParam)
   colormap(pltColor.map); 
   c(k) = colorbar; shading flat;
   switch k 
-  case {1,2}
+  case {1,2,3}
     caxis([-0.6, 0.6]);
-  case {3}
-    caxis([-0.3, 0.3]);
-  case {4}
+  case {4,5,6}
     caxis([-2e-2, 2e-2]);
-  case {5,6}
-    caxis([-1.2e-2, 1.2e-2]);
   end
   
   c(k).LineWidth = 2;
