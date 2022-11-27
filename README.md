@@ -12,7 +12,7 @@ KEMPO2 - *Kyoto university ElectroMagnetic Particle cOde: 2D version* is a two-d
 
 # Requirement
 
-MATLAB2019a or higher. No Toolbox required.
+MATLAB 2019a or higher. No Toolbox required.
 
 # Installation
 
