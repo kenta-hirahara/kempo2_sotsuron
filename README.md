@@ -2,14 +2,6 @@
 
 KEMPO2 - *Kyoto university ElectroMagnetic Particle cOde: 2D version* is a two-dimensional Particle-in-Cell code with Graphical User Interface for the analysis of whistler-mode instability. The simulation interface is designed with App Designer in MATLAB environment.
 
-# DEMO
-
-"hoge"の魅力が直感的に伝えわるデモ動画や図解を載せる
-
-# Features
-
-"hoge"のセールスポイントや差別化などを説明する
-
 # Requirement
 
 MATLAB 2019a or higher. No Toolbox required.
