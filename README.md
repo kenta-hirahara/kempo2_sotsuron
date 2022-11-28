@@ -1,6 +1,6 @@
 # KEMPO2: A space plasma simulator
 
-KEMPO2 - *Kyoto university ElectroMagnetic Particle cOde: 2D version* is a two-dimensional Particle-in-Cell code with Graphical User Interface for the analysis of whistler-mode instability. The simulation interface is designed with App Designer in MATLAB environment.
+KEMPO2 - is a two-dimensional Particle-in-Cell code with Graphical User Interface for the analysis of whistler-mode instability. The simulation interface is designed with App Designer in MATLAB environment.
 
 # Requirement
 
