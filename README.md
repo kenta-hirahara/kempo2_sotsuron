@@ -15,8 +15,15 @@ $ git clone https://github.com/kenta-hirahara/kempo2_sotsuron.git
 
 # Code execution
 
-Run '''KEMPO2''' in the command window. Then the UI shows up and you can set parameters as you wish.
+Go to the folder inn MATLAB and run 
+```
+$ KEMPO2
+
+```
+in the command window. Then the UI shows up and you can set parameters as you wish.
 
 # Note
 
-For meaningful results the grid size have to be at least 64 squared for xy place, as well as particle number 128 since the Gaussian distribution is applied to the particles.
+ - For meaningful results the grid size have to be at least 64 squared for xy place, as well as particle number 128 since the Gaussian distribution is applied to the particles.
+ - Calculation resouces for velocity distribution, E\*J and each dispersion relation are quite large. So please remove the ticks from the check boxes in the Panel Options if they're unnecessary.
+ - We recommend ntime to be a power of two for Fourier Transformations.
