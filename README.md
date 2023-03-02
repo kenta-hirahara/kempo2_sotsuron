@@ -15,7 +15,7 @@ $ git clone https://github.com/kenta-hirahara/kempo2_sotsuron.git
 
 # Code execution
 
-Run 'KEMPO2' in the command window. Then the UI shows up and you can set parameters as you wish.
+Run '''KEMPO2''' in the command window. Then the UI shows up and you can set parameters as you wish.
 
 # Note
 
