@@ -15,7 +15,7 @@ $ git clone https://github.com/kenta-hirahara/kempo2_sotsuron.git
 
 # Code execution
 
-Go to the folder inn MATLAB and run 
+Go to the folder in MATLAB and run 
 ```
 $ KEMPO2
 
